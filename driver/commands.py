@@ -45,3 +45,16 @@ class PowMrCommands(PowMrCommand):
     DC_TEMP_C = 516, 28, 31, 10
     AC_TEMP_C = 516, 29, 31, 10
     TR_TEMP_C = 516, 30, 31, 10  # TRANSFORMER RECTIFIER
+
+
+class DerivedCommand(Enum):
+    def __init__(self, source: list[PowMrCommand], calculation: float):
+        self.source = source
+        self.calculation = calculation
+
+    def __str__(self):
+        return self.name
+
+
+class DerivedCommands(DerivedCommand):
+    ...

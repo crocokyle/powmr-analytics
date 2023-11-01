@@ -25,8 +25,8 @@ class PowMrConnection:
     def connect(self):
         self.client.connect()
 
-    def read_register(self, command: PowMrCommand, force_update=True):
-        if force_update or command.register not in command.registers:
+    def read_register(self, command: PowMrCommand, force_update=False):
+        if force_update or (command.register not in command.registers):
             result = self.client.read_holding_registers(command.address, command.count, 1).registers
         else:
             result = command.registers

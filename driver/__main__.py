@@ -27,6 +27,8 @@ def poll(connection: PowMrConnection, poll_count: int = 10):
 
     while len(df) < poll_count:
         results = run_commands(connection)
+        if results['BATTERY_CHARGE_CURRENT_A'] > 0: # Not sure why this is necessary. Draw value jumps up to 6544.
+            results['BATTERY_DRAW_CURRENT_A'] = 0
         results['timestamp'] = datetime.datetime.now().astimezone(datetime.timezone.utc)
         new = pd.DataFrame(results, index=[results['timestamp']])
         df = pd.concat([df, new])
