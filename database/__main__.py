@@ -19,8 +19,9 @@ class Database:
         self.query_api = self.client.query_api()
 
     def write_data(self):
-        p = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
-        self.write_api.write(bucket=self.bucket, record=p)
+        ...
+        # p = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
+        # self.write_api.write(bucket=self.bucket, record=p)
 
     def read_data(self):
         # using Table structure
