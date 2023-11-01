@@ -22,6 +22,11 @@ class PowMrCommands(PowMrCommand):
     # Totals
     TOTAL_POWER_W = 61487, 11, 13, 10
 
+    # Solar
+    SOLAR_POWER_W = 256, 9, 15
+    SOLAR_CURRENT_A = 256, 8, 15, 10
+    SOLAR_VOLTAGE_VDC = 256, 7, 15, 10
+
     # Inverter
     INVERTER_POWER_W = 516, 23, 31
     INVERTER_VA = 516, 24, 31
@@ -31,7 +36,8 @@ class PowMrCommands(PowMrCommand):
     # Battery
     BATTERY_VOLTAGE_VDC = 256, 1, 15, 10
     BATTERY_SOC = 256, 0, 15
-    BATTERY_CURRENT_A = 516, 26, 31, 10
+    BATTERY_CHARGE_CURRENT_A = 516, 26, 31, 10
+    BATTERY_DRAW_CURRENT_A = 256, 2, 15, 10
 
     # Grid Power
 
