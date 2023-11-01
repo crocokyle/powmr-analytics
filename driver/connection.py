@@ -1,7 +1,7 @@
 from pymodbus.client import ModbusSerialClient
 from pymodbus.framer import ModbusRtuFramer
 
-from driver.commads import PowMrCommand
+from driver.commands import PowMrCommand
 
 
 class PowMrConnection:
@@ -33,7 +33,12 @@ class PowMrConnection:
         for register, value in enumerate(result):
             command.registers[register] = value
 
-        return result[command.register]
+        if command.divisor:
+            value = int(result[command.register]) / command.divisor
+        else:
+            value = int(result[command.register])
+
+        return value
 
     def close(self):
         self.client.close()
