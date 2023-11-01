@@ -22,12 +22,12 @@ def run_commands(connection) -> dict[str, Any]:
 def poll(connection: PowMrConnection, poll_count: int = 10):
     time.sleep(1)
     results = run_commands(connection)
-    results['timestamp'] = datetime.datetime.now()
+    results['timestamp'] = datetime.datetime.now().astimezone(datetime.timezone.utc)
     df = pd.DataFrame(results, index=[results['timestamp']])
 
     while len(df) < poll_count:
         results = run_commands(connection)
-        results['timestamp'] = datetime.datetime.now()
+        results['timestamp'] = datetime.datetime.now().astimezone(datetime.timezone.utc)
         new = pd.DataFrame(results, index=[results['timestamp']])
         df = pd.concat([df, new])
 

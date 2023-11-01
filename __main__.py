@@ -16,7 +16,8 @@ def main_loop(db: Database, inv_connection: PowMrConnection):
             db.bucket,
             db.org,
             record=dataframe,
-            data_frame_measurement_name="Power Statistics"
+            data_frame_measurement_name="Power Statistics",
+            data_frame_timestamp_column="timestamp"
         )
 
 
