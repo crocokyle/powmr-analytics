@@ -1,5 +1,6 @@
+import logging
 import os
-from pprint import pprint
+import sys
 
 import dotenv
 
@@ -7,11 +8,17 @@ from database.__main__ import Database
 from driver.__main__ import poll
 from driver.connection import PowMrConnection
 
+log = logging.getLogger(__name__)
+log.setLevel(logging.DEBUG)
+handler = logging.StreamHandler(sys.stdout)
+handler.setLevel(logging.DEBUG)
+log.addHandler(handler)
+
 
 def main_loop(db: Database, inv_connection: PowMrConnection):
     while True:
         dataframe = poll(inv_connection)
-        pprint(dataframe)
+        log.info(f'Polled Solar All-in-one:\n{dataframe.to_string()}')
         db.write_api.write(
             db.bucket,
             db.org,
@@ -19,6 +26,7 @@ def main_loop(db: Database, inv_connection: PowMrConnection):
             data_frame_measurement_name="Power Statistics",
             data_frame_timestamp_column="timestamp"
         )
+        log.info(f'Updated InfluxDB at {dataframe["timestamp"][1]}')
 
 
 if __name__ == '__main__':
