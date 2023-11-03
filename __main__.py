@@ -8,6 +8,8 @@ from database.__main__ import Database
 from driver.__main__ import poll
 from driver.connection import PowMrConnection
 
+from datetime import datetime
+
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
 handler = logging.StreamHandler(sys.stdout)
@@ -26,7 +28,7 @@ def main_loop(db: Database, inv_connection: PowMrConnection):
             data_frame_measurement_name="Power Statistics",
             data_frame_timestamp_column="timestamp"
         )
-        log.info(f'Updated InfluxDB at {dataframe["timestamp"][1]}')
+        log.info(f'Updated InfluxDB at {datetime.now()}')
 
 
 if __name__ == '__main__':
