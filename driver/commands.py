@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Any
 
 
 class PowMrCommand(Enum):
@@ -8,6 +9,31 @@ class PowMrCommand(Enum):
         self.count = count
         self.divisor = divisor
         self.registers = {}
+        self.last_value: Any = None
+
+    def __add__(self, other):
+        try:
+            return float(self.last_value) + float(other.last_value)
+        except TypeError:
+            return None
+
+    def __sub__(self, other):
+        try:
+            return float(self.last_value) - float(other.last_value)
+        except TypeError:
+            return None
+
+    def __mul__(self, other):
+        try:
+            return float(self.last_value) * float(other.last_value)
+        except TypeError:
+            return None
+
+    def __div__(self, other):
+        try:
+            return float(self.last_value) / float(other.last_value)
+        except TypeError:
+            return None
 
     def __str__(self):
         return self.name
@@ -36,8 +62,8 @@ class PowMrCommands(PowMrCommand):
     # Battery
     BATTERY_VOLTAGE_VDC = 256, 1, 15, 10
     BATTERY_SOC = 256, 0, 15
-    BATTERY_CHARGE_CURRENT_A = 516, 26, 31, 10
-    BATTERY_DRAW_CURRENT_A = 256, 2, 15, 10
+    BATTERY_CHARGE_A = 516, 26, 31, 10
+    BATTERY_DRAW_A = 256, 2, 15, 10
 
     # Grid Power
 
@@ -48,13 +74,13 @@ class PowMrCommands(PowMrCommand):
 
 
 class DerivedCommand(Enum):
-    def __init__(self, source: list[PowMrCommand], calculation: float):
-        self.source = source
-        self.calculation = calculation
+    def __init__(self, expression: str):
+        self.expression = expression
 
     def __str__(self):
         return self.name
 
 
 class DerivedCommands(DerivedCommand):
-    ...
+    BATTERY_DRAW_W = "PowMrCommands.BATTERY_DRAW_CURRENT_A * PowMrCommands.BATTERY_VOLTAGE_VDC"
+    BATTERY_CHARGE_W = "PowMrCommands.BATTERY_CHARGE_CURRENT_A * PowMrCommands.BATTERY_VOLTAGE_VDC"

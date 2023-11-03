@@ -38,6 +38,8 @@ class PowMrConnection:
         else:
             value = int(result[command.register])
 
+        command.last_value = value
+
         return value
 
     def close(self):
