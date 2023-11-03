@@ -82,5 +82,5 @@ class DerivedCommand(Enum):
 
 
 class DerivedCommands(DerivedCommand):
-    BATTERY_DRAW_W = "PowMrCommands.BATTERY_DRAW_CURRENT_A * PowMrCommands.BATTERY_VOLTAGE_VDC"
-    BATTERY_CHARGE_W = "PowMrCommands.BATTERY_CHARGE_CURRENT_A * PowMrCommands.BATTERY_VOLTAGE_VDC"
+    BATTERY_DRAW_W = "PowMrCommands.BATTERY_DRAW_A * PowMrCommands.BATTERY_VOLTAGE_VDC"
+    BATTERY_CHARGE_W = "PowMrCommands.BATTERY_CHARGE_A * PowMrCommands.BATTERY_VOLTAGE_VDC"
