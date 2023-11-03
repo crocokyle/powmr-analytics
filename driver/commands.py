@@ -38,9 +38,6 @@ class PowMrCommand(Enum):
     def __str__(self):
         return self.name
 
-    def __repr__(self):
-        return ""  # TODO: complete this
-
 
 class PowMrCommands(PowMrCommand):
     # address, register, count, divisor (Optional)
