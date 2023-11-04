@@ -4,8 +4,8 @@ import sys
 
 import dotenv
 
-from database.__main__ import Database
-from driver.__main__ import poll
+from driver.influxdb import Database
+from driver.main import poll
 from driver.connection import PowMrConnection
 
 from datetime import datetime
