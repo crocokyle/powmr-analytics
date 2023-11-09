@@ -19,16 +19,23 @@ log.addHandler(handler)
 
 def main_loop(db: Database, inv_connection: PowMrConnection):
     while True:
-        dataframe = poll(inv_connection)
-        log.info(f'Polled Solar All-in-one:\n{dataframe.to_string()}')
-        db.write_api.write(
-            db.bucket,
-            db.org,
-            record=dataframe,
-            data_frame_measurement_name="Power Statistics",
-            data_frame_timestamp_column="timestamp"
-        )
-        log.info(f'Updated InfluxDB at {datetime.now()}')
+        try:
+            dataframe = poll(inv_connection)
+            log.info(f'Polled Solar All-in-one:\n{dataframe.to_string()} at {datetime.now()}')
+        except Exception:
+            log.exception(f"Failed to reach inverter combo at {datetime.now()}")
+        if dataframe is not None:
+            try:
+                db.write_api.write(
+                    db.bucket,
+                    db.org,
+                    record=dataframe,
+                    data_frame_measurement_name="Power Statistics",
+                    data_frame_timestamp_column="timestamp"
+                )
+                log.info(f'Updated InfluxDB at {datetime.now()}')
+            except Exception:
+                log.error(f'Failed to update InfluxDB at {datetime.now()}')
 
 
 if __name__ == '__main__':
