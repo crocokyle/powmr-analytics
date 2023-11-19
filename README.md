@@ -18,6 +18,6 @@ Configure settings by modifying `.env`:
 - ⚠️ If publicly exposing this service, change the default credentials for InfluxDB
   - To generate a new API key, exec into the InfluxDB container and run:
   
-    `influx auth create -o <NEW-ORG-NAME> --all-access`
+    `influx auth create -o <INFLUXDB-ORG-NAME-IN-.ENV> --all-access`
 - Specify the COM port address you want to use from your docker host.
   - Example: `/dev/ttyS5`
