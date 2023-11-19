@@ -4,7 +4,7 @@ import sys
 
 import dotenv
 
-from driver.influxdb import Database
+from driver.database import Database
 from driver.main import poll
 from driver.connection import PowMrConnection
 
@@ -35,17 +35,18 @@ def main_loop(db: Database, inv_connection: PowMrConnection):
                 )
                 log.info(f'Updated InfluxDB at {datetime.now()}')
             except Exception:
-                log.error(f'Failed to update InfluxDB at {datetime.now()}')
+                log.exception(f'Failed to update InfluxDB at {datetime.now()}')
 
 
 if __name__ == '__main__':
     dotenv.load_dotenv()
 
-    API_KEY = os.environ['API_KEY']
-    BUCKET = os.environ['BUCKET']
-    INFLUX_HOST = os.environ['INFLUX_HOST']
-    INFLUX_PORT = os.environ['INFLUX_PORT']
-    INFLUX_ORG = os.environ['INFLUX_ORG']
+    API_KEY = os.environ['DOCKER_INFLUXDB_INIT_ADMIN_TOKEN']
+    BUCKET = os.environ['DOCKER_INFLUXDB_INIT_BUCKET']
+    INFLUX_HOST = '127.0.0.1'
+    INFLUX_PORT = 80
+    INFLUX_ORG = os.environ['DOCKER_INFLUXDB_INIT_ORG']
+    COM_PORT = os.environ['COM_PORT']
 
     database = Database(
         api_key=API_KEY,
@@ -53,7 +54,7 @@ if __name__ == '__main__':
         port=INFLUX_PORT,
         org=INFLUX_ORG,
         bucket=BUCKET,
-        use_ssl=True,
+        use_ssl=False,
         verify_ssl=False
     )
 
