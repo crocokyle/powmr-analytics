@@ -11,7 +11,7 @@ services:
       - "80:8086"
 
   driver:
-    image: crocokyle/powmr-driver:latest
+    image: registry.hub.docker.com/crocokyle/powmr-driver:main
     volumes:
       - .:/driver
     command: /bin/sh -c 'python /driver/main.py'
