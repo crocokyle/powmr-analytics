@@ -1,5 +1,4 @@
 {
-  "http-bind-address": "0.0.0.0:8086",
   "log-level": "debug",
   "reporting-disabled": true
 }

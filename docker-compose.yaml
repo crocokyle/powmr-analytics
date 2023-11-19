@@ -1,8 +1,9 @@
-version: '3.4'
+version: '3.7'
 
 services:
   influxdb:
-    env_file: ./influxdb/INFLUXDB.env
+    hostname: influxdb
+    env_file: .env
     image: influxdb
     volumes:
       - ./influxdb/persistent-data:/bitnami/influxdb
@@ -12,4 +13,5 @@ services:
   driver:
     image: python:3.11
     volumes:
-      - ./app:/app
+      - .:/driver
+    command: /bin/sh -c 'pip install -r /driver/requirements.txt && python /driver/main.py'
