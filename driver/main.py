@@ -22,7 +22,7 @@ def run_commands(connection) -> dict[str, Any]:
     return results
 
 
-def poll(connection: PowMrConnection, poll_count: int = 10):
+def poll(connection: PowMrConnection, poll_count: int = 1):
     df = pd.DataFrame()
 
     while len(df) < poll_count:
