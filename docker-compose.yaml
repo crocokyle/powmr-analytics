@@ -11,7 +11,7 @@ services:
       - "80:8086"
 
   driver:
-    image: python:3.11
+    image: crocokyle/powmr-driver:latest
     volumes:
       - .:/driver
-    command: /bin/sh -c 'pip install -r /driver/requirements.txt && python /driver/main.py'
+    command: /bin/sh -c 'python /driver/main.py'
