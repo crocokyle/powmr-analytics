@@ -7,7 +7,7 @@ Pulls data from PowMr All-In-One inverters via MODBUS and visualizes the data vi
 > [an issue with forwarding COM ports](https://github.com/docker/for-win/issues/1018)
 > into a Docker container.
 
-- Install [the appropriate ch340 driver](driver/ch340_drivers).
+- Install the appropriate [ch340 driver](driver/ch340_drivers).
 - `docker compose up`
 - Browse to `http://<your-docker-host-ip>`
 
