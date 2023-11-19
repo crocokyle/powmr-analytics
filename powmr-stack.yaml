@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  influxdb:
+    env_file: ./influxdb/INFLUXDB.env
+    image: influxdb
+    volumes:
+      - ./influxdb/persistent-data:/bitnami/influxdb
+    ports:
+      - "80:8086"
+
+  driver:
+    image: python:3.11
+    volumes:
+      - ./app:/app
