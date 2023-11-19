@@ -17,14 +17,17 @@ handler.setLevel(logging.DEBUG)
 log.addHandler(handler)
 
 
-def main_loop(db: Database, inv_connection: PowMrConnection):
+def main_loop(db: Database, inv_connection: PowMrConnection, max_retries=10):
+    poll_attempts = 0
+    push_attempts = 0
     while True:
+        if (poll_attempts > max_retries) or (push_attempts > max_retries):
+            failure = "poll inverter combo" if (poll_attempts > max_retries) else "update InfluxDB"
+            raise Exception(f"Failed to {failure} after the maximum number of retries ({max_retries}).")
         try:
             dataframe = poll(inv_connection)
             log.info(f'Polled Solar All-in-one:\n{dataframe.to_string()} at {datetime.now()}')
-        except Exception:
-            log.exception(f"Failed to reach inverter combo at {datetime.now()}")
-        if dataframe is not None:
+            poll_attempts = 0
             try:
                 db.write_api.write(
                     db.bucket,
@@ -34,8 +37,13 @@ def main_loop(db: Database, inv_connection: PowMrConnection):
                     data_frame_timestamp_column="timestamp"
                 )
                 log.info(f'Updated InfluxDB at {datetime.now()}')
+                push_attempts = 0
             except Exception:
+                push_attempts += 1
                 log.exception(f'Failed to update InfluxDB at {datetime.now()}')
+        except Exception:
+            poll_attempts += 1
+            log.exception(f"Failed to reach inverter combo at {datetime.now()}")
 
 
 if __name__ == '__main__':
