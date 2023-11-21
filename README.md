@@ -20,7 +20,7 @@ to run on a Raspberry Pi.
 Configure settings before spinning up the services by modifying `.env`:
 - Set the `COM_PORT` variable to the COM port (on your Docker host) that is connected to your PowMr inverter.
   - You can enumerate connected USB devices by running `sudo dmesg | grep ttyUSB*` 
-  - Example Value: `/dev/ttyS5`
+  - Example Value: `/dev/ttyUSB0`
 - ⚠️ If publicly exposing this service, change the default credentials for InfluxDB
   - To generate a new API key, exec into the InfluxDB container and run:
   
