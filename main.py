@@ -1,18 +1,18 @@
 import logging
 import os
-import sys
+from datetime import datetime
 
 import dotenv
+from rich.logging import RichHandler
 
+from driver.connection import PowMrConnection
 from driver.database import Database
 from driver.main import poll
-from driver.connection import PowMrConnection
-
-from datetime import datetime
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
-handler = logging.StreamHandler(sys.stdout)
+handler = RichHandler(rich_tracebacks=True)
+handler.setFormatter(logging.Formatter("{message}", style='{'))
 handler.setLevel(logging.DEBUG)
 log.addHandler(handler)
 
