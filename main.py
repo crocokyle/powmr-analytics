@@ -26,7 +26,7 @@ def main_loop(db: Database, inv_connection: PowMrConnection, max_retries=10):
         try:
             dataframe = poll(inv_connection)
             log.info(f'Polled Solar All-in-one.')
-            log.debug(dataframe.to_dict())
+            log.debug(dataframe.to_dict('records'))
             poll_attempts = 0
             try:
                 db.write_api.write(
