@@ -4,7 +4,6 @@ from datetime import datetime
 
 import dotenv
 from rich.logging import RichHandler
-
 from driver.connection import PowMrConnection
 from driver.database import Database
 from driver.main import poll
@@ -26,7 +25,8 @@ def main_loop(db: Database, inv_connection: PowMrConnection, max_retries=10):
             raise Exception(f"Failed to {failure} after the maximum number of retries ({max_retries}).")
         try:
             dataframe = poll(inv_connection)
-            log.info(f'Polled Solar All-in-one:\n{dataframe.to_string()} at {datetime.now()}')
+            log.info(f'Polled Solar All-in-one at {datetime.now()}')
+            log.debug(dataframe)
             poll_attempts = 0
             try:
                 db.write_api.write(
