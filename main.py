@@ -1,16 +1,16 @@
 import logging
 import os
-from datetime import datetime
 
 import dotenv
 from rich.logging import RichHandler
+
 from driver.connection import PowMrConnection
 from driver.database import Database
 from driver.main import poll
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
-handler = RichHandler(rich_tracebacks=True)
+handler = RichHandler(markup=True, rich_tracebacks=True, log_time_format='[%m/%d/%y %H:%M:%S:%f]')
 handler.setFormatter(logging.Formatter("{message}", style='{'))
 handler.setLevel(logging.DEBUG)
 log.addHandler(handler)
@@ -25,8 +25,8 @@ def main_loop(db: Database, inv_connection: PowMrConnection, max_retries=10):
             raise Exception(f"Failed to {failure} after the maximum number of retries ({max_retries}).")
         try:
             dataframe = poll(inv_connection)
-            log.info(f'Polled Solar All-in-one at {datetime.now()}')
-            log.debug(dataframe)
+            log.info(f'Polled Solar All-in-one.')
+            log.debug(dataframe.to_dict())
             poll_attempts = 0
             try:
                 db.write_api.write(
@@ -36,14 +36,14 @@ def main_loop(db: Database, inv_connection: PowMrConnection, max_retries=10):
                     data_frame_measurement_name="Power Statistics",
                     data_frame_timestamp_column="timestamp"
                 )
-                log.info(f'Updated InfluxDB at {datetime.now()}')
+                log.info(f'Updated InfluxDB.')
                 push_attempts = 0
             except Exception:
                 push_attempts += 1
-                log.exception(f'Failed to update InfluxDB at {datetime.now()}')
+                log.exception(f'Failed to update InfluxDB.')
         except Exception:
             poll_attempts += 1
-            log.exception(f"Failed to reach inverter combo at {datetime.now()}")
+            log.exception(f"Failed to reach inverter combo.")
 
 
 if __name__ == '__main__':
