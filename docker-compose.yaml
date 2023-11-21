@@ -15,3 +15,5 @@ services:
     volumes:
       - .:/driver
     command: /bin/sh -c 'python /driver/main.py'
+    devices:
+      - ${COM_PORT}:/dev/ttyUSB0

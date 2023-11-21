@@ -51,10 +51,12 @@ if __name__ == '__main__':
 
     API_KEY = os.environ['DOCKER_INFLUXDB_INIT_ADMIN_TOKEN']
     BUCKET = os.environ['DOCKER_INFLUXDB_INIT_BUCKET']
-    INFLUX_HOST = '127.0.0.1'
-    INFLUX_PORT = 80
     INFLUX_ORG = os.environ['DOCKER_INFLUXDB_INIT_ORG']
-    COM_PORT = os.environ['COM_PORT']
+
+    # Hardcoded container vars in docker-compose.yaml
+    INFLUX_HOST = 'influxdb'
+    INFLUX_PORT = 8086
+    COM_PORT = '/dev/ttyUSB0'
 
     database = Database(
         api_key=API_KEY,
@@ -66,6 +68,6 @@ if __name__ == '__main__':
         verify_ssl=False
     )
 
-    inverter_connection = PowMrConnection("COM4")
+    inverter_connection = PowMrConnection(COM_PORT)
 
     main_loop(database, inverter_connection)
