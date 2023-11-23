@@ -24,8 +24,8 @@ sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plug
 nano .env
 echo 'User settings saved to ".env"'
 
-# Build the RPi image
-sudo docker build driver/Dockerfile-rpi -f rpi powmr-driver
+# Build the RPi driver image
+sudo sudo docker build . -f driver/Dockerfile-rpi -t rpi
 
 # Enable Docker service on startup
 sudo systemctl enable docker
