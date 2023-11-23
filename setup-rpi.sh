@@ -19,7 +19,7 @@ sudo apt-get -y update
 
 sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-echo "Please edit and save your settings."
 nano .env
+echo 'User settings saved to ".env"'
 
-docker compose up -d
+sudo docker compose up -d
