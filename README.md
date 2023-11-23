@@ -37,5 +37,6 @@ Configure settings before spinning up the services by modifying `.env`:
 - Install Raspberry Pi OS (32-bit) (Yes 32-bit even on the Pi 4)
 - Connect to the Raspberry Pi physically or via SSH 
 - Clone this repo to your raspberry pi: `git clone https://github.com/crocokyle/powmr-analytics.git`
+- Move into the cloned repo `cd powmr-analytics`
 - Set the installer permissions to executable: `sudo chmod +x setup-rpi.sh`
 - Run `./setup-rpi.sh`
