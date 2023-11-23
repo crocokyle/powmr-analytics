@@ -13,7 +13,7 @@ services:
 
   driver:
     restart: always
-    image: registry.hub.docker.com/crocokyle/powmr-driver:rpi
+    image: powmr-driver:rpi
     volumes:
       - .:/driver
     command: /bin/sh -c 'python /driver/main.py'
