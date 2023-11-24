@@ -13,7 +13,7 @@ to run on a Raspberry Pi.
 - Set the installer permissions to executable: `sudo chmod +x setup-rpi.sh`
 - Run `./setup-rpi.sh`
   - During installation, you will be prompted to enter the COM port from above
-- Browse to http://<raspberry-pi-ipaddress>
+- Browse to `http://<raspberry-pi-ipaddress>`
 - *Optional:* Import the default dashboard from `influxdb/dashboards/default.json`
 
 # Other Systems
