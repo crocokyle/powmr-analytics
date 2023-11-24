@@ -25,10 +25,10 @@ nano .env
 echo 'User settings saved to ".env"'
 
 # Build the RPi driver image
-sudo docker build . -f driver/Dockerfile-rpi -t rpi
+sudo docker build . -f driver/Dockerfile-rpi -t powmr-driver:rpi
 
 # Enable Docker service on startup
 sudo systemctl enable docker
 
 # Run detached
-sudo docker compose up -d
+sudo docker compose -f docker-compose-rpi.yaml up -d
