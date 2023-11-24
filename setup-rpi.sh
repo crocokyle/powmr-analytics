@@ -7,12 +7,12 @@ for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do
 sudo apt-get -y update
 sudo apt-get -y install ca-certificates curl gnupg
 sudo install -m 0755 -d /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/raspbian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
-# Set up Docker's APT repository:
+# Add the repository to Apt sources:
 echo \
-  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/raspbian \
+  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
   "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get -y update
@@ -25,7 +25,7 @@ nano .env
 echo 'User settings saved to ".env"'
 
 # Build the RPi images
-# sudo docker build . -f driver/Dockerfile-rpi -t powmr-driver:rpi
+sudo docker build . -f driver/Dockerfile -t powmr-driver:rpi
 
 # Enable Docker service on startup
 sudo systemctl enable docker
