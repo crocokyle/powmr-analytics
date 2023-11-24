@@ -22,7 +22,7 @@ def main_loop(db: Database, inv_connection: PowMrConnection, max_retries=None):
     push_attempts = 0
     last_poll = datetime.datetime.now()
     while True:
-        if ((poll_attempts > max_retries) or (push_attempts > max_retries)) and max_retries is not None:
+        if max_retries is not None and ((poll_attempts > max_retries) or (push_attempts > max_retries)):
             failure = "poll inverter combo" if (poll_attempts > max_retries) else "update InfluxDB"
             raise Exception(f"Failed to {failure} after the maximum number of retries ({max_retries}).")
         try:
