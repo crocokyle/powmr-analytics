@@ -1,0 +1,21 @@
+import datetime
+
+EXPECTED = {
+    'TOTAL_POWER_W': 526.6,
+    'SOLAR_POWER_W': 60,
+    'SOLAR_CURRENT_A': 0.5,
+    'SOLAR_VOLTAGE_VDC': 121.4,
+    'INVERTER_POWER_W': 224,
+    'INVERTER_VA': 336,
+    'INVERTER_CURRENT_A': 2.7,
+    'INVERTER_VOLTAGE_VAC': 119.9,
+    'BATTERY_VOLTAGE_VDC': 52.5,
+    'BATTERY_SOC': 45,
+    'BATTERY_CHARGE_A': 0.0,
+    'BATTERY_DRAW_A': 5.3,
+    'DC_TEMP_C': 33.4,
+    'AC_TEMP_C': 43.1,
+    'TR_TEMP_C': 58.4,
+    'BATTERY_DRAW_W': 278.25,
+    'BATTERY_CHARGE_W': 0.0,
+}

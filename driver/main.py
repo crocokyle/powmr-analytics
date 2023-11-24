@@ -1,8 +1,5 @@
-import datetime
 from pprint import pprint
 from typing import Any
-
-import pandas as pd
 
 from driver.commands import PowMrCommands, DerivedCommands
 from driver.connection import PowMrConnection
@@ -22,28 +19,23 @@ def run_commands(connection) -> dict[str, Any]:
     return results
 
 
-def poll(connection: PowMrConnection, poll_count: int = 1):
-    df = pd.DataFrame()
+def get_results(connection: PowMrConnection) -> dict[str]:
+    """Gets and corrects fields based on weird PowMr Logic"""
+    results = run_commands(connection)
 
-    while len(df) < poll_count:
-        results = run_commands(connection)
+    # TODO: There's a lot more weirdness in these fields...values multiply in certain scenarios
+    # Not sure why this is necessary. Draw value jumps up when charging and vice-versa
+    if results['BATTERY_CHARGE_A'] > 0:
+        results['BATTERY_DRAW_A'] = float(0)
+        results['BATTERY_DRAW_W'] = float(0)
 
-        # Not sure why this is necessary. Draw value jumps up when charging and vice-versa
-        if results['BATTERY_CHARGE_A'] > 0:
-            results['BATTERY_DRAW_A'] = float(0)
-            results['BATTERY_DRAW_W'] = float(0)
+    if results['BATTERY_DRAW_A'] > 0:
+        results['BATTERY_CHARGE_A'] = float(0)
+        results['BATTERY_CHARGE_W'] = float(0)
 
-        if results['BATTERY_DRAW_A'] > 0:
-            results['BATTERY_CHARGE_A'] = float(0)
-            results['BATTERY_CHARGE_W'] = float(0)
-
-        results['timestamp'] = datetime.datetime.now().astimezone(datetime.timezone.utc)
-        new = pd.DataFrame(results, index=[results['timestamp']])
-        df = pd.concat([df, new])
-
-    return df
+    return results
 
 
 if __name__ == "__main__":
-    df = poll()
+    df = get_results()
     pprint(df)

@@ -1,3 +1,5 @@
+import datetime
+
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
 
@@ -18,10 +20,19 @@ class Database:
         self.write_api = self.client.write_api(write_options=SYNCHRONOUS)
         self.query_api = self.client.query_api()
 
-    def write_data(self):
-        ...
-        # p = Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
-        # self.write_api.write(bucket=self.bucket, record=p)
+    def write_results(self, responses: dict[str]):
+        influx_record = {
+            "measurement": "Power Statistics",
+            "fields": responses,
+            'time': datetime.datetime.now().astimezone(datetime.timezone.utc)
+        }
+
+        self.write_api.write(
+            self.bucket,
+            self.org,
+            record=influx_record,
+            record_measurement_name="Power Statistics",
+        )
 
     def read_data(self):
         # using Table structure

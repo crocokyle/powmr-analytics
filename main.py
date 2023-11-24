@@ -6,7 +6,7 @@ from rich.logging import RichHandler
 
 from driver.connection import PowMrConnection
 from driver.database import Database
-from driver.main import poll
+from driver.main import get_results
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
@@ -24,18 +24,12 @@ def main_loop(db: Database, inv_connection: PowMrConnection, max_retries=10):
             failure = "poll inverter combo" if (poll_attempts > max_retries) else "update InfluxDB"
             raise Exception(f"Failed to {failure} after the maximum number of retries ({max_retries}).")
         try:
-            dataframe = poll(inv_connection)
+            results = get_results(inv_connection)
             log.info(f'Polled Solar All-in-one.')
-            log.debug(dataframe.to_dict('records'))
+            log.debug(results.get('fields'))
             poll_attempts = 0
             try:
-                db.write_api.write(
-                    db.bucket,
-                    db.org,
-                    record=dataframe,
-                    data_frame_measurement_name="Power Statistics",
-                    data_frame_timestamp_column="timestamp"
-                )
+                db.write_results(results)
                 log.info(f'Updated InfluxDB.')
                 push_attempts = 0
             except Exception:
