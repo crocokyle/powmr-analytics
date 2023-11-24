@@ -25,8 +25,7 @@ nano .env
 echo 'User settings saved to ".env"'
 
 # Build the RPi driver image
-sudo apt-install -y cmake
-sudo sudo docker build . -f driver/Dockerfile-rpi -t rpi
+sudo docker build . -f driver/Dockerfile-rpi -t rpi
 
 # Enable Docker service on startup
 sudo systemctl enable docker
