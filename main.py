@@ -31,10 +31,11 @@ def main_loop(db: Database, inv_connection: PowMrConnection, max_retries=None):
             last_poll = datetime.datetime.now()
             log.info(f'Polled Solar All-in-one.')
 
-            results['fields']['SOLAR_kWh'] = ((delta.total_seconds() / 3600) *
-                                              (results['fields']['SOLAR_POWER_W'] / 1000))
-            results['fields']['USAGE_kWh'] = ((delta.total_seconds() / 3600) *
-                                              (results['fields']['INVERTER_POWER_W'] / 1000))
+            # FUTURE
+            # results['fields']['SOLAR_kWh'] = ((delta.total_seconds() / 3600) *
+            #                                   (results['fields']['SOLAR_POWER_W'] / 1000))
+            # results['fields']['USAGE_kWh'] = ((delta.total_seconds() / 3600) *
+            #                                   (results['fields']['INVERTER_POWER_W'] / 1000))
 
             log.debug(results.get('fields'))
             poll_attempts = 0
