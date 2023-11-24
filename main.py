@@ -3,7 +3,6 @@ import logging
 import os
 
 import dotenv
-from rich.logging import RichHandler
 
 from driver.connection import PowMrConnection
 from driver.database import Database
@@ -11,8 +10,7 @@ from driver.main import get_results
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
-handler = RichHandler(markup=True, rich_tracebacks=True, log_time_format='[%m/%d/%y %H:%M:%S:%f]')
-handler.setFormatter(logging.Formatter("{message}", style='{'))
+handler = logging.StreamHandler()
 handler.setLevel(logging.DEBUG)
 log.addHandler(handler)
 
@@ -26,18 +24,15 @@ def main_loop(db: Database, inv_connection: PowMrConnection, max_retries=None):
             failure = "poll inverter combo" if (poll_attempts > max_retries) else "update InfluxDB"
             raise Exception(f"Failed to {failure} after the maximum number of retries ({max_retries}).")
         try:
-            delta = datetime.datetime.now() - last_poll
             results = get_results(inv_connection)
+            delta = datetime.datetime.now() - last_poll
             last_poll = datetime.datetime.now()
             log.info(f'Polled Solar All-in-one.')
 
-            # FUTURE
-            # results['fields']['SOLAR_kWh'] = ((delta.total_seconds() / 3600) *
-            #                                   (results['fields']['SOLAR_POWER_W'] / 1000))
-            # results['fields']['USAGE_kWh'] = ((delta.total_seconds() / 3600) *
-            #                                   (results['fields']['INVERTER_POWER_W'] / 1000))
+            results['SOLAR_kWh'] = (delta.total_seconds() / 3600) * (results['SOLAR_POWER_W'] / 1000)
+            results['USAGE_kWh'] = (delta.total_seconds() / 3600) * (results['INVERTER_POWER_W'] / 1000)
 
-            log.debug(results.get('fields'))
+            log.debug(results)
             poll_attempts = 0
             try:
                 db.write_results(results)
