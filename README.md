@@ -14,6 +14,7 @@ to run on a Raspberry Pi.
 - Run `./setup-rpi.sh`
   - During installation, you will be prompted to enter the COM port from above
 - Browse to `http://<raspberry-pi-ipaddress>`
+  - Default credentials are `admin:password` if you didn't change them during setup 
 - *Optional:* Import the default dashboard from `influxdb/dashboards/default.json`
 
 # Other Systems
