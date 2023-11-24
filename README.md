@@ -3,6 +3,22 @@ Pulls data from PowMr All-In-One inverters via MODBUS and visualizes the data vi
 to run on a Raspberry Pi.
 ![image](https://github.com/crocokyle/powmr-analytics/assets/11140843/e86a8dfe-16fc-4057-8066-949280cebeb0)
 
+# Raspberry Pi 4 Instructions
+
+- Install Raspberry Pi OS (64-bit)
+- Connect to the Raspberry Pi physically or via SSH
+- Connect your inverter to the Raspberry Pi via USB or serial (Note the port `sudo dmesg | grep ttyUSB*`)
+- Clone this repo to your Raspberry Pi: `git clone https://github.com/crocokyle/powmr-analytics.git`
+- Move into the cloned repo `cd powmr-analytics`
+- Set the installer permissions to executable: `sudo chmod +x setup-rpi.sh`
+- Run `./setup-rpi.sh`
+  - During installation, you will be prompted to enter the COM port from above
+- Browse to `http://<raspberry-pi-ipaddress>`
+  - Default credentials are `admin:password` if you didn't change them during setup 
+- *Optional:* Import the default dashboard from `influxdb/dashboards/default.json`
+
+# Other Systems
+
 ## Prerequisites
 
 > ⚠️ At the moment powmr-analytics does not run on Windows due to 
@@ -15,6 +31,7 @@ to run on a Raspberry Pi.
 - *Optional:* ch340 drivers are generally preinstalled on Linux. [The ch340 drivers](driver/ch340_drivers) only need 
   to be installed if you are using a USB connection on an OS that doesn't include them. Running `sudo dmesg | grep 
   ttyUSB*` should show you if they are preinstalled.
+
 ## Configuration
 
 Configure settings before spinning up the services by modifying `.env`:
@@ -31,12 +48,3 @@ Configure settings before spinning up the services by modifying `.env`:
 
 - `docker compose up` or `docker compose up -d` for detached
 - Browse to `http://<your-docker-host-ip>`
-
-## Raspberry Pi Instructions
-
-- Install Raspberry Pi OS (32-bit) (Yes 32-bit even on the Pi 4)
-- Connect to the Raspberry Pi physically or via SSH 
-- Clone this repo to your raspberry pi: `git clone https://github.com/crocokyle/powmr-analytics.git`
-- Move into the cloned repo `cd powmr-analytics`
-- Set the installer permissions to executable: `sudo chmod +x setup-rpi.sh`
-- Run `./setup-rpi.sh`
