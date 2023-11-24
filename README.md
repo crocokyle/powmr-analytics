@@ -1,7 +1,8 @@
 # powmr-analytics
 Pulls data from PowMr All-In-One inverters via MODBUS and visualizes the data via InfluxDB. This project was designed 
 to run on a Raspberry Pi.
-![image](https://github.com/crocokyle/powmr-analytics/assets/11140843/e86a8dfe-16fc-4057-8066-949280cebeb0)
+![image](https://github.com/crocokyle/powmr-analytics/assets/11140843/ef121895-611d-42a4-8ab0-abccf3c184b2)
+
 
 # Raspberry Pi 4 Instructions
 
