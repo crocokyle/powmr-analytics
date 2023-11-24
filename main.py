@@ -1,3 +1,4 @@
+import datetime
 import logging
 import os
 
@@ -16,16 +17,25 @@ handler.setLevel(logging.DEBUG)
 log.addHandler(handler)
 
 
-def main_loop(db: Database, inv_connection: PowMrConnection, max_retries=10):
+def main_loop(db: Database, inv_connection: PowMrConnection, max_retries=None):
     poll_attempts = 0
     push_attempts = 0
+    last_poll = datetime.datetime.now()
     while True:
-        if (poll_attempts > max_retries) or (push_attempts > max_retries):
+        if ((poll_attempts > max_retries) or (push_attempts > max_retries)) and max_retries is not None:
             failure = "poll inverter combo" if (poll_attempts > max_retries) else "update InfluxDB"
             raise Exception(f"Failed to {failure} after the maximum number of retries ({max_retries}).")
         try:
+            delta = datetime.datetime.now() - last_poll
             results = get_results(inv_connection)
+            last_poll = datetime.datetime.now()
             log.info(f'Polled Solar All-in-one.')
+
+            results['fields']['SOLAR_kWh'] = ((delta.total_seconds() / 3600) *
+                                              (results['fields']['SOLAR_POWER_W'] / 1000))
+            results['fields']['USAGE_kWh'] = ((delta.total_seconds() / 3600) *
+                                              (results['fields']['INVERTER_POWER_W'] / 1000))
+
             log.debug(results.get('fields'))
             poll_attempts = 0
             try:
