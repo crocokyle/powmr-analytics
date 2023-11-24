@@ -5,7 +5,7 @@ services:
     restart: always
     hostname: influxdb
     env_file: .env
-    image: arm32v7/influxdb
+    image: influxdb:rpi
     volumes:
       - ./influxdb/persistent-data:/bitnami/influxdb
     ports:
