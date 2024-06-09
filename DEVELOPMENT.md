@@ -4,7 +4,9 @@
 - Edit the display file. Ex: `sudo nano /etc/systemd/system/multi-user.target.wants/docker.service`
 - Locate the line starting with "ExecStart" and add the option `-H tcp://0.0.0.0:2375` at the end. 
   - Ex: `ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock -H tcp://0.0.0.0:2375`
-- Save the file and restart the Docker service: `sudo systemctl restart docker`
+- Save the file and reload the daemon units: `systemctl daemon-reload`
+- Restart the Docker service: `sudo systemctl restart docker`
 
 ### Troubleshooting
 - Use the command `sudo journalctl -u docker` to view the Docker engine service logs.
+- `sudo netstat -tlnp` Should display a listening service on 2375. Ex: `tcp6       0      0 :::2375                 :::*                    LISTEN      27926/dockerd`
