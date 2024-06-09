@@ -1,0 +1,10 @@
+# Expose the Docker API for remote development in PyCharm
+
+- Locate the docker service using `sudo find /etc/systemd/system/ -name docker.service`
+- Edit the display file. Ex: `sudo nano /etc/systemd/system/multi-user.target.wants/docker.service`
+- Locate the line starting with "ExecStart" and add the option `-H tcp://0.0.0.0:2375` at the end. 
+  - Ex: `ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock -H tcp://0.0.0.0:2375`
+- Save the file and restart the Docker service: `sudo systemctl restart docker`
+
+### Troubleshooting
+- Use the command `sudo journalctl -u docker` to view the Docker engine service logs.
