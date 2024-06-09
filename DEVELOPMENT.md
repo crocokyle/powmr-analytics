@@ -6,6 +6,10 @@
   - Ex: `ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock -H tcp://0.0.0.0:2375`
 - Save the file and reload the daemon units: `systemctl daemon-reload`
 - Restart the Docker service: `sudo systemctl restart docker`
+- Connect to the daemon remotely in PyCharm
+  - Navigate to `Tools` > `Services` > `Docker` > `Connection`
+  - Choose "TCP socket" and enter the host:port. Ex: `tcp://influxdb.local:2375` 
+  - You should see "Connection successful" at the bottom of the window
 
 ### Troubleshooting
 - Use the command `sudo journalctl -u docker` to view the Docker engine service logs.
