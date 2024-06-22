@@ -19,7 +19,7 @@ def run_commands(connection) -> dict[str, Any]:
     return results
 
 
-def get_results(connection: PowMrConnection) -> dict[str]:
+def get_results(connection: PowMrConnection) -> dict[str, Any]:
     """Gets and corrects fields based on weird PowMr Logic"""
     results = run_commands(connection)
 

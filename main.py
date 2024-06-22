@@ -4,6 +4,7 @@ import os
 
 import dotenv
 
+from driver.bms.main import DalyBMSConnection
 from driver.connection import PowMrConnection
 from driver.database import Database
 from driver.main import get_results
@@ -15,7 +16,7 @@ handler.setLevel(logging.DEBUG)
 log.addHandler(handler)
 
 
-def main_loop(db: Database, inv_connection: PowMrConnection, max_retries=None):
+def main_loop(db: Database, inv_connection: PowMrConnection, bms_connection, max_retries=None):
     poll_attempts = 0
     push_attempts = 0
     last_poll = datetime.datetime.now()
@@ -25,6 +26,10 @@ def main_loop(db: Database, inv_connection: PowMrConnection, max_retries=None):
             raise Exception(f"Failed to {failure} after the maximum number of retries ({max_retries}).")
         try:
             results = get_results(inv_connection)
+            bms_state = bms_connection.get_state()
+            results['BMS_SOC'] = bms_state.get('soc_percent')
+            results['BMS_VDC'] = bms_state.get('total_voltage')
+            results['BMS_CURRENT_A'] = bms_state.get('current')
             delta = datetime.datetime.now() - last_poll
             last_poll = datetime.datetime.now()
             log.info(f'Polled Solar All-in-one.')
@@ -53,6 +58,9 @@ if __name__ == '__main__':
     BUCKET = os.environ['DOCKER_INFLUXDB_INIT_BUCKET']
     INFLUX_ORG = os.environ['DOCKER_INFLUXDB_INIT_ORG']
 
+    # Daly BMS
+    DALY_BMS_MAC = os.environ['DALY_BMS_MAC']
+
     # Hardcoded container vars in docker-compose.yaml
     INFLUX_HOST = 'influxdb'
     INFLUX_PORT = 8086
@@ -69,5 +77,6 @@ if __name__ == '__main__':
     )
 
     inverter_connection = PowMrConnection(COM_PORT)
+    bms_connection = DalyBMSConnection(mac=DALY_BMS_MAC)
 
-    main_loop(database, inverter_connection)
+    main_loop(database, inverter_connection, bms_connection)

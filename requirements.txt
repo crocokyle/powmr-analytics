@@ -3,3 +3,4 @@ pymodbus~=3.5.4
 pyserial==3.5
 python-dotenv~=1.0.0
 setuptools~=68.2.0
+bleak==0.22.2
