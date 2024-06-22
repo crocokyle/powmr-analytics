@@ -6,7 +6,6 @@ RUN apt-get update && apt-get install -y dbus
 RUN service dbus start
 RUN apt-get install -y bluez
 RUN service bluetooth start
-RUN service bluetoothd start
 
 COPY ../../requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
