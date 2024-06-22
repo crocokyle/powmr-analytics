@@ -23,17 +23,19 @@ class DalyBMSConnection:
         self.connected = False
 
     async def get_state(self):
-        if not self.connected:
-            await self.connect()
-        soc = await self.client.get_soc()
-        logger.debug(soc)
-        if not soc:
-            logger.warning("failed to receive SOC")
-            return
-        logger.info(soc)
-        await self.disconnect()
-        return soc
-
+        try:
+            if not self.connected:
+                await self.connect()
+            soc = await self.client.get_soc()
+            logger.debug(soc)
+            if not soc:
+                logger.warning("failed to receive SOC")
+                return
+            logger.info(soc)
+            await self.disconnect()
+            return soc
+        except Exception as e:
+            logger.warning(e)
 
 async def main():
     bms = DalyBMSConnection(mac="17:71:06:02:08:91")
