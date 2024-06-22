@@ -5,12 +5,16 @@ from bleak.exc import BleakDeviceNotFoundError
 
 from .dalybms import DalyBMSBluetooth
 
-logger = logging.getLogger(__name__)
+log = logging.getLogger(__name__)
+log.setLevel(logging.DEBUG)
+handler = logging.StreamHandler()
+handler.setLevel(logging.DEBUG)
+log.addHandler(handler)
 
 
 class DalyBMSConnection:
     def __init__(self, mac: str = "17:71:06:02:08:91"):
-        self.client = DalyBMSBluetooth(logger=logger)
+        self.client = DalyBMSBluetooth(logger=log)
         self.mac = mac
         self.connected = False
 
@@ -27,15 +31,15 @@ class DalyBMSConnection:
             if not self.connected:
                 await self.connect()
             soc = await self.client.get_soc()
-            logger.debug(soc)
             if not soc:
-                logger.warning("failed to receive SOC")
+                log.warning("failed to receive SOC")
                 return
-            logger.info(soc)
+            log.info(soc)
             await self.disconnect()
             return soc
         except Exception as e:
-            logger.warning(e)
+            log.warning(e)
+
 
 async def main():
     bms = DalyBMSConnection(mac="17:71:06:02:08:91")
