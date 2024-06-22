@@ -16,7 +16,7 @@ services:
     image: powmr-driver:rpi
     volumes:
       - .:/dashboard
-      - /var/run/dbus:/var/run/dbus
+      - /run/dbus:/run/dbus:ro
     command: /bin/sh -c 'python /dashboard/main.py'
     devices:
       - ${COM_PORT}:/dev/ttyUSB0
