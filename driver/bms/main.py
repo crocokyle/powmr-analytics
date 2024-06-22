@@ -3,7 +3,7 @@ import logging
 
 from bleak.exc import BleakDeviceNotFoundError
 
-from .dalybms import DalyBMSBluetooth
+from dalybms import DalyBMSBluetooth
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
@@ -21,10 +21,12 @@ class DalyBMSConnection:
     async def connect(self):
         await self.client.connect(mac_address="17:71:06:02:08:91")
         self.connected = True
+        log.info("BMS connection established")
 
     async def disconnect(self):
         await self.client.disconnect()
         self.connected = False
+        log.info("BMS disconnected")
 
     async def get_state(self):
         try:
