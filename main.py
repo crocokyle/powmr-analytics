@@ -1,3 +1,4 @@
+import asyncio
 import datetime
 import logging
 import os
@@ -16,7 +17,7 @@ handler.setLevel(logging.DEBUG)
 log.addHandler(handler)
 
 
-def main_loop(db: Database, inv_connection: PowMrConnection, bms_connection, max_retries=None):
+async def main_loop(db: Database, inv_connection: PowMrConnection, bms_connection, max_retries=None):
     poll_attempts = 0
     push_attempts = 0
     last_poll = datetime.datetime.now()
@@ -26,7 +27,7 @@ def main_loop(db: Database, inv_connection: PowMrConnection, bms_connection, max
             raise Exception(f"Failed to {failure} after the maximum number of retries ({max_retries}).")
         try:
             results = get_results(inv_connection)
-            bms_state = bms_connection.get_state()
+            bms_state = await bms_connection.get_state()
             results['BMS_SOC'] = bms_state.get('soc_percent')
             results['BMS_VDC'] = bms_state.get('total_voltage')
             results['BMS_CURRENT_A'] = bms_state.get('current')
@@ -79,4 +80,4 @@ if __name__ == '__main__':
     inverter_connection = PowMrConnection(COM_PORT)
     bms_connection = DalyBMSConnection(mac=DALY_BMS_MAC)
 
-    main_loop(database, inverter_connection, bms_connection)
+    asyncio.run(main_loop(database, inverter_connection, bms_connection))
