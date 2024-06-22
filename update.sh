@@ -1,7 +1,6 @@
 #!/bin/bash
 
 git checkout *
-git checkout async-drivers
 git pull
 
 # Build the RPi driver images
