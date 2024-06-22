@@ -3,7 +3,7 @@ import logging
 
 from bleak.exc import BleakDeviceNotFoundError
 
-from driver.bms.dalybms import DalyBMSBluetooth
+from drivers.bms.dalybms import DalyBMSBluetooth
 
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)

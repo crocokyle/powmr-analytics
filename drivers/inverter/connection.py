@@ -1,7 +1,7 @@
 from pymodbus.client import ModbusSerialClient
 from pymodbus.framer import ModbusRtuFramer
 
-from driver.commands import PowMrCommand
+from drivers.inverter.commands import PowMrCommand
 
 
 class PowMrConnection:

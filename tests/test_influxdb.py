@@ -1,7 +1,7 @@
 import datetime
 
-from driver.database import Database
 from expected import EXPECTED
+from ..database import Database
 
 # TODO: Use pytest properly
 
@@ -27,7 +27,6 @@ DB = Database(
 
 
 def test_influxdb_push(response: dict[str], database: Database = DB) -> None:
-
     influx_record = {
         "measurement": "Power Statistics",
         "fields": response,

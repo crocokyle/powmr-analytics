@@ -1,8 +1,8 @@
 from pprint import pprint
 from typing import Any
 
-from driver.commands import PowMrCommands, DerivedCommands
-from driver.connection import PowMrConnection
+from drivers.inverter.commands import PowMrCommands, DerivedCommands
+from drivers.inverter.connection import PowMrConnection
 
 
 def run_commands(connection) -> dict[str, Any]:
