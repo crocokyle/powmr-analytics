@@ -16,7 +16,7 @@ services:
     image: registry.hub.docker.com/crocokyle/powmr-driver:main
     volumes:
       - .:/dashboard
-      - /var/run/dbus:/var/run/dbus:z
+      - /var/run/dbus:/var/run/dbus
     command: /bin/sh -c 'python /dashboard/main.py'
     devices:
       - ${COM_PORT}:/dev/ttyUSB0
