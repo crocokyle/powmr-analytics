@@ -26,6 +26,7 @@ class DalyBMSConnection:
             log.info("BMS connection established")
         except Exception as e:
             log.error(f"Failed to connect to BMS via Bluetooth: {e}")
+            raise e
 
     async def disconnect(self):
         await self.client.disconnect()
