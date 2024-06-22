@@ -13,10 +13,10 @@ services:
 
   driver:
     restart: always
-    image: registry.hub.docker.com/crocokyle/drivers:main
+    image: registry.hub.docker.com/crocokyle/powmr-driver:main
     volumes:
-      - .:/driver
+      - .:/dashboard
       - /var/run/dbus:/var/run/dbus:z
-    command: /bin/sh -c 'python /driver/main.py'
+    command: /bin/sh -c 'python /dashboard/main.py'
     devices:
       - ${COM_PORT}:/dev/ttyUSB0
