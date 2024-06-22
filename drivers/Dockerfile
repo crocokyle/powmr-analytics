@@ -9,4 +9,7 @@ RUN apt-get update && apt-get install -y \
 COPY ../../requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
+RUN service dbus start
+RUN service bluetooth start
+
 COPY .. .
