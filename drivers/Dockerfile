@@ -4,8 +4,9 @@ WORKDIR /driver
 
 RUN apt-get update && apt-get install -y \
     bluez \
-    dbus \
-    systemd
+    dbus
+
+RUN apt-get install -y systemd  # TODO: Can be removed after testing bluetooth service is running
 
 COPY ../../requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
