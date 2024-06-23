@@ -27,10 +27,10 @@ async def main_loop(db: Database, inv_connection: PowMrConnection, bms_connectio
             raise Exception(f"Failed to {failure} after the maximum number of retries ({max_retries}).")
         try:
             results = get_results(inv_connection)
-            bms_state = await bms_connection.get_state()
-            results['BMS_SOC'] = bms_state.get('soc_percent')
-            results['BMS_VDC'] = bms_state.get('total_voltage')
-            results['BMS_CURRENT_A'] = bms_state.get('current')
+            if bms_state := await bms_connection.get_state():
+                results['BMS_SOC'] = bms_state.get('soc_percent')
+                results['BMS_VDC'] = bms_state.get('total_voltage')
+                results['BMS_CURRENT_A'] = bms_state.get('current')
             delta = datetime.datetime.now() - last_poll
             last_poll = datetime.datetime.now()
             log.info(f'Polled Solar All-in-one.')
