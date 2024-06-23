@@ -46,6 +46,7 @@ class DalyBMSConnection:
             return soc
         except Exception as e:
             log.warning(e)
+            await self.disconnect()
 
 
 async def main():
